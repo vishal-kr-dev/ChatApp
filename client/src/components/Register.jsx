@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 
 const Register = ({ openLogin }) => {
   
@@ -6,8 +7,17 @@ const Register = ({ openLogin }) => {
   const [password, setPassword] = useState("");
   const [file, setFile] = useState(null)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('image', file)
+    try {
+      axios.post('http://localhost:5000/chat/user/register', formData)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
