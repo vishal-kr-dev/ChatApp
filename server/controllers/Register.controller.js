@@ -1,12 +1,13 @@
 import multer from "multer"
 import UserModel from "../models/User.js"
 import path from "path"
+import bcrypt from "bcrypt";
 
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
         cb(null, "public/images")
     },
-    filename: (req, res, cb) => {
+    filename: (req, file, cb) => {
         cb(
             null, file.fieldname + "_" + Date.now() + path.extname(file.originalname)
         )
@@ -26,8 +27,20 @@ async function Register(req, res){
         if(userExist) {
             return res.status(400).json({msg: "User already exists"})
         }
+
+        const hashpassword = await bcrypt.hash(password, 10)
+        const newUser = new UserModel({
+            username,
+            password: hashpassword,
+            image: file
+        })
+
+        await newUser.save()
+
+        return res.status(200).json({msg: "success"})
     } catch (error) {
-        console.log(error)        
+        console.log(error)  
+        return res.status(500).json({msg: "error" + error})      
     }
 }
 
