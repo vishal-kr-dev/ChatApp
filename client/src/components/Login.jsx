@@ -1,12 +1,26 @@
 import React, { useState } from "react";
+import axios from "axios";
+import {useNavigate} from "react-router-dom"
 
 const Login = ({ openSignup }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
+        try {
+      const response = await axios.post('http://localhost:5000/chat/user/login', {username, password})
+      console.log(response)
+      if(response.data.msg === "success"){
+        window.localStorage.setItem('chat-token', response.data.token)
+        window.localStorage.setItem('userId', response.data.user._id)
+        navigate('/chat')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
