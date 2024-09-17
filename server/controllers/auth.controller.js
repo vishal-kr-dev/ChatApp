@@ -69,4 +69,8 @@ async function login(req, res) {
     }
 }
 
-export {register, login}
+const verify = (req, res) => {
+    return res.status(200).json({msg: "success"})
+}
+
+export {register, login, verify}

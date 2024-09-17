@@ -1,22 +1,45 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Model from "../components/Model";
 import Register from "../components/Register";
 import Login from "../components/Login";
+import axios from "axios";
 
 const Home = () => {
-  const [isModelOpen, setIsModelOpen] = useState(false)
-  const [isLogin, setIsLogin] = useState(true)
+  const [isModelOpen, setIsModelOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const openSignup = () => {
-    setIsModelOpen(true)
-    setIsLogin(false)
-  }
+    setIsModelOpen(true);
+    setIsLogin(false);
+  };
 
-    const openLogin = () => {
-      setIsModelOpen(true);
-      setIsLogin(true);
-    };
+  const openLogin = () => {
+    setIsModelOpen(true);
+    setIsLogin(true);
+  };
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      const verifyUser = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/chat/user/verify", {
+              headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem('chat-token')}`,
+              },
+            });
+          if (response.data.msg === "success") {
+            navigate('/chat')
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      verifyUser()
+    }, []);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
