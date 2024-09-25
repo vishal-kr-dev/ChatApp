@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 .env
+.gitignore
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +26,5 @@ dist-ssr
 *.sln
 *.sw?
 server/public/images/image_1726596849885.jpg
+server/public/images/image_1727287679305.jpg
+server/public/images/image_1727294445786.jpg

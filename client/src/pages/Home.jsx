@@ -19,27 +19,31 @@ const Home = () => {
     setIsLogin(true);
   };
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-      const verifyUser = async () => {
-        try {
-          const response = await axios.get(
-            "http://localhost:5000/chat/user/verify", {
-              headers: {
-                'Authorization': `Bearer ${window.localStorage.getItem('chat-token')}`,
-              },
-            });
-          if (response.data.msg === "success") {
-            navigate('/chat')
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/chat/user/verify",
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "chat-token"
+              )}`,
+            },
           }
-        } catch (error) {
-          console.log(error);
+        );
+        if (response.data.msg === "success") {
+          navigate("/chat");
         }
-      };
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      verifyUser()
-    }, []);
+    verifyUser();
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
