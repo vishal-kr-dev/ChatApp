@@ -59,7 +59,7 @@ async function login(req, res) {
         return res.status(400).json({msg: "Incorrect Password"})
       }
 
-      const token = jwt.sign({id: userExist._id}, process.env.JWT_KEY, {expiresIn: '1hr'})
+      const token = jwt.sign({id: userExist._id}, process.env.JWT_KEY, {expiresIn: '7d'})
 
       return res.status(200).json({ msg: "success", token, user: {_id: userExist._id, username: userExist.username} });
 

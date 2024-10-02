@@ -1,17 +1,20 @@
 import express from 'express'
 import cors from 'cors'
-import Connection from './db/connection.js'
+import Connect from './db/connection.js'
 import AuthRouter from './routes/auth.js'
 import UserRouter from './routes/user.js'
+import MessageRouter from './routes/message.js'
 
-const app = express()
+import {app, server} from './socket/socket.js'
 app.use(cors())
 app.use(express.json())
+app.use(express.static('public'))
 
 app.use('/chat/user', AuthRouter)
 app.use('/chat/users', UserRouter)
+app.use('/chat/message', MessageRouter)
 
-app.listen(process.env.PORT, () => {
-    Connection()
+server.listen(process.env.PORT, () => {
+    Connect()
     console.log("Server is running")
 })
